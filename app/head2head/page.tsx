@@ -57,7 +57,7 @@ export default function HeadToHeadChallenge() {
         />
         {dateTime && (
           <p className="text-sm text-cyan-300">
-            Your local time: {format(new Date(dateTime), "PPpp")}
+            Your local time | {format(new Date(dateTime), "PPpp")}
           </p>
         )}
       </div>
@@ -91,16 +91,16 @@ export default function HeadToHeadChallenge() {
 
         {pinkSlip && (
           <div className="text-sm text-red-400 mt-2">
-            <p>🚨 Pink slip wager means you must own your vehicle.</p>
+            <p>🚨 Pink slip wager means you must own your vehicle</p>
             <p>
               Ownership will be transferred to the race organizer before the
-              race.
+              race
             </p>
           </div>
         )}
         <p className="text-xs text-gray-400 mt-2">
           💸 All wager money must be deposited to the race organizer at the bank
-          before the race.
+          before the race
         </p>
       </div>
 
@@ -116,7 +116,7 @@ export default function HeadToHeadChallenge() {
             Requested Races
           </h3>
           {/* Map requested races */}
-          <p className="text-sm text-gray-400">No races requested yet.</p>
+          <p className="text-sm text-gray-400">No races requested yet</p>
         </div>
 
         <div className="bg-gray-900 p-4 rounded-xl">
@@ -124,7 +124,7 @@ export default function HeadToHeadChallenge() {
             Confirmed Races
           </h3>
           {/* Map confirmed races */}
-          <p className="text-sm text-gray-400">No confirmed races yet.</p>
+          <p className="text-sm text-gray-400">No confirmed races yet</p>
         </div>
       </div>
     </div>
