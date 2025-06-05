@@ -39,7 +39,7 @@ export default function HeadToHeadChallenge() {
             <option>Select Opponent</option>
           </select>
           <select className="w-full p-2 rounded bg-gray-800 text-white">
-            <option>Select Opponent's Vehicle</option>
+            <option>Select Opponent Vehicle</option>
           </select>
         </div>
       </div>
