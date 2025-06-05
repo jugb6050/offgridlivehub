@@ -163,7 +163,7 @@ export default function GtaMap() {
               <button
                 onClick={(e) => {
                   e.preventDefault();
-                  L.DomEvent.stopPropagation(e);
+                  L.DomEvent.stopPropagation(e.nativeEvent); // ✅ FIXED HERE
                   setMarkers((prev) => prev.filter((x) => x.id !== m.id));
                 }}
                 className="text-red-500 hover:underline"
@@ -204,7 +204,7 @@ export default function GtaMap() {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    L.DomEvent.stopPropagation(e);
+                    L.DomEvent.stopPropagation(e.nativeEvent); // ✅ FIXED HERE
                     setJammers((prev) => prev.filter((x) => x.id !== j.id));
                   }}
                   className="text-red-500 hover:underline"
