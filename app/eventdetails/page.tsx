@@ -13,34 +13,6 @@ const orbitron = Orbitron({
 const utcStartTime = new Date("2025-06-01T22:00:00Z");
 
 export default function RaceEventPage() {
-  const [localTime, setLocalTime] = useState<string>("");
-  const [timeRemaining, setTimeRemaining] = useState<string>("");
-
-  useEffect(() => {
-    const local = utcStartTime.toLocaleString(undefined, {
-      dateStyle: "full",
-      timeStyle: "short",
-    });
-    setLocalTime(local);
-
-    const updateCountdown = () => {
-      const now = new Date().getTime();
-      const distance = utcStartTime.getTime() - now;
-
-      if (distance <= 0) {
-        setTimeRemaining("🚦 Race Started!");
-      } else {
-        const hours = Math.floor(distance / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        setTimeRemaining(`${hours}h ${minutes}m remaining`);
-      }
-    };
-
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 60000);
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <div className="min-h-screen bg-black text-white px-4 py-10 sm:px-6 md:px-12 lg:px-24">
       <h1
