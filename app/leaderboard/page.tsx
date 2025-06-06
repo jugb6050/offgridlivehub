@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 const tracks = [
   "Garbage",
@@ -46,17 +46,16 @@ export default function Leaderboard() {
     return minutes * 60000 + seconds * 1000 + milliseconds;
   };
 
-  const fetchData = () => {
+  const fetchData = useCallback(() => {
     fetch("/api/lap-times")
       .then((res) => res.json())
       .then((data: LapTimeRaw[]) => {
         const withMs: LapTimeParsed[] = data.map((entry) => ({
           ...entry,
           timeInMs: timeStringToMs(entry.time),
-          placement: 0, // will calculate below
+          placement: 0,
         }));
 
-        // Group by track
         const grouped: Record<string, LapTimeParsed[]> = {};
         withMs.forEach((entry) => {
           if (!grouped[entry.track]) grouped[entry.track] = [];
@@ -75,11 +74,11 @@ export default function Leaderboard() {
         setLapTimes(allWithPlacements);
       })
       .catch((err) => console.error("Fetch error:", err));
-  };
+  }, []);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
