@@ -50,7 +50,7 @@ export default function Home() {
           June 8th, 8PM UTC | OFF GRID Garbage Session
         </h1>
         <Link
-          href="/roster"
+          href="/eventdetails"
           className="mt-8 px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl shadow-lg transition transform hover:scale-105"
         >
           View Race Event Details
