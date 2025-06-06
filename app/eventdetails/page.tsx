@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { Orbitron } from "next/font/google";
 
 const orbitron = Orbitron({
@@ -9,8 +8,6 @@ const orbitron = Orbitron({
   weight: ["700"],
   variable: "--font-orbitron",
 });
-
-const utcStartTime = new Date("2025-06-01T22:00:00Z");
 
 export default function RaceEventPage() {
   return (
