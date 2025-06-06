@@ -21,10 +21,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Header />
-      <Navbar />
-
-      <body className={orbitron.className}>{children}</body>
+      <head />
+      <body className={orbitron.className}>
+        <Header />
+        <Navbar />
+        {children}
+      </body>
     </html>
   );
 }

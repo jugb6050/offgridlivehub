@@ -46,12 +46,12 @@ export default function RaceEventPage() {
       <h1
         className={`${orbitron.variable} text-center text-3xl sm:text-4xl md:text-5xl mb-8 text-cyan-300 drop-shadow-[0_0_12px_#00ffff]`}
       >
-        OFF GRID DMV MEETUP
+        Off Grid Garbage Meetup
       </h1>
 
       <div className="w-full max-w-6xl mx-auto mb-10 rounded-xl border-4 border-cyan-500 shadow-[0_0_30px_#00ffff] overflow-hidden">
         <Image
-          src="/dmv.png"
+          src="/garbage.png"
           alt="Race Event Map"
           width={1920}
           height={1080}
@@ -70,24 +70,11 @@ export default function RaceEventPage() {
 
         <p className="text-lg sm:text-xl md:text-2xl text-cyan-200">
           <span className="font-bold text-white">Original Time (UTC):</span>{" "}
-          Sunday, June 1st, 2025 @ 10PM
-        </p>
-
-        <p className="text-lg sm:text-xl md:text-2xl text-green-300">
-          <span className="font-bold text-white">Your Local Time:</span>{" "}
-          {localTime}
-        </p>
-
-        <p className="text-sm text-gray-400 italic">
-          * Time is automatically converted based on your system timezone.
-        </p>
-
-        <p className="text-lg sm:text-xl md:text-2xl text-yellow-300">
-          ⏱ {timeRemaining}
+          Sunday, June 8th, 2025 @ 8pm UTC
         </p>
 
         <p className="pt-2 text-lg sm:text-xl md:text-2xl text-pink-400">
-          🎶 DJ & Good Vibes | Hangout starts at 9PM UTC before race start.
+          Setting Official Lap Times, to be added to live leaderboards.
         </p>
       </div>
     </div>

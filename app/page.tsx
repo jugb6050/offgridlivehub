@@ -47,7 +47,7 @@ export default function Home() {
         <h1
           className={`${orbitron.variable} text-3xl md:text-5xl lg:text-6xl font-bold tracking-widest animate-fadeInUp`}
         >
-          June 1st, 2025 | OFF GRID DMV SESSION
+          June 8th, 8PM UTC | OFF GRID Garbage Session
         </h1>
         <Link
           href="/roster"
