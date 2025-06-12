@@ -15,12 +15,12 @@ export default function RaceEventPage() {
       <h1
         className={`${orbitron.variable} text-center text-3xl sm:text-4xl md:text-5xl mb-8 text-cyan-300 drop-shadow-[0_0_12px_#00ffff]`}
       >
-        Off Grid Garbage Meetup
+        Off Grid x Empire Event
       </h1>
 
-      <div className="w-full max-w-6xl mx-auto mb-10 rounded-xl border-4 border-cyan-500 shadow-[0_0_30px_#00ffff] overflow-hidden">
+      <div className="w-full max-w-3xl mx-auto mb-10 rounded-xl border-4 border-cyan-500 shadow-[0_0_30px_#00ffff] overflow-hidden">
         <Image
-          src="/garbage.png"
+          src="/flashgt.jpg"
           alt="Race Event Map"
           width={1920}
           height={1080}
@@ -34,16 +34,11 @@ export default function RaceEventPage() {
         <h2
           className={`${orbitron.variable} text-2xl sm:text-3xl md:text-4xl text-white`}
         >
-          RACE DAY & START TIME
+          Event Start Time TBD:
         </h2>
 
-        <p className="text-lg sm:text-xl md:text-2xl text-cyan-200">
-          <span className="font-bold text-white">Original Time (UTC):</span>{" "}
-          Sunday, June 8th, 2025 @ 8pm UTC
-        </p>
-
         <p className="pt-2 text-lg sm:text-xl md:text-2xl text-pink-400">
-          Setting Official Lap Times, to be added to live leaderboards.
+          Fully Maxed Flash GT Raffle Pull
         </p>
       </div>
     </div>
