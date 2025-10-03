@@ -114,8 +114,8 @@ export default function Leaderboard() {
       : lapTimes.filter((entry) => entry.track === selectedTrack);
 
   return (
-    <main className="min-h-screen bg-black text-cyan-300 px-4 py-8">
-      <h1 className="text-4xl font-bold text-center mb-6 tracking-wider drop-shadow-[0_0_10px_cyan]">
+    <main className="min-h-screen bg-black text-yellow-300 px-4 py-8">
+      <h1 className="text-4xl font-bold text-center mb-6 tracking-wider">
         Race Leaderboard
       </h1>
 
@@ -124,9 +124,9 @@ export default function Leaderboard() {
           onClick={() => setSelectedTrack("All")}
           className={`px-4 py-2 border ${
             selectedTrack === "All"
-              ? "bg-cyan-500 text-black"
-              : "border-cyan-300"
-          } rounded-xl hover:bg-cyan-400 hover:text-black transition`}
+              ? "bg-yellow-500 text-black"
+              : "border-yellow-300"
+          } rounded-xl hover:bg-yellow-400 hover:text-black transition`}
         >
           All
         </button>
@@ -136,9 +136,9 @@ export default function Leaderboard() {
             onClick={() => setSelectedTrack(track)}
             className={`px-4 py-2 border ${
               selectedTrack === track
-                ? "bg-cyan-500 text-black"
-                : "border-cyan-300"
-            } rounded-xl hover:bg-cyan-400 hover:text-black transition`}
+                ? "bg-yellow-500 text-black"
+                : "border-yellow-300"
+            } rounded-xl hover:bg-yellow-400 hover:text-black transition`}
           >
             {track}
           </button>
@@ -148,7 +148,7 @@ export default function Leaderboard() {
       <div className="text-center mb-8">
         <button
           onClick={() => setFormOpen(!formOpen)}
-          className="px-6 py-2 border border-cyan-300 rounded-xl hover:bg-cyan-400 hover:text-black transition"
+          className="px-6 py-2 border border-yellow-300 rounded-xl hover:bg-yellow-400 hover:text-black transition"
         >
           {formOpen ? "Close Form" : "Submit Lap Time"}
         </button>
@@ -157,7 +157,7 @@ export default function Leaderboard() {
       {formOpen && (
         <form
           onSubmit={handleSubmit}
-          className="max-w-xl mx-auto mb-10 p-4 border border-cyan-300 rounded-lg bg-cyan-950"
+          className="max-w-xl mx-auto mb-10 p-4 border border-yellow-300 rounded-lg bg-yellow-900"
         >
           <label className="block mb-2">
             Racer Name:
@@ -168,7 +168,7 @@ export default function Leaderboard() {
                 setFormData({ ...formData, racer: e.target.value })
               }
               required
-              className="w-full mt-1 p-2 rounded bg-black text-cyan-300 border border-cyan-500"
+              className="w-full mt-1 p-2 rounded bg-black text-yellow-300 border border-yellow-500"
             />
           </label>
 
@@ -182,7 +182,7 @@ export default function Leaderboard() {
                 setFormData({ ...formData, time: e.target.value })
               }
               required
-              className="w-full mt-1 p-2 rounded bg-black text-cyan-300 border border-cyan-500"
+              className="w-full mt-1 p-2 rounded bg-black text-yellow-300 border border-yellow-500"
             />
           </label>
 
@@ -193,7 +193,7 @@ export default function Leaderboard() {
               onChange={(e) =>
                 setFormData({ ...formData, track: e.target.value })
               }
-              className="w-full mt-1 p-2 rounded bg-black text-cyan-300 border border-cyan-500"
+              className="w-full mt-1 p-2 rounded bg-black text-yellow-300 border border-yellow-500"
             >
               {tracks.map((track) => (
                 <option key={track} value={track}>
@@ -212,7 +212,7 @@ export default function Leaderboard() {
                 setFormData({ ...formData, vehicle: e.target.value })
               }
               required
-              className="w-full mt-1 p-2 rounded bg-black text-cyan-300 border border-cyan-500"
+              className="w-full mt-1 p-2 rounded bg-black text-yellow-300 border border-yellow-500"
             />
           </label>
 
@@ -226,14 +226,14 @@ export default function Leaderboard() {
             />
             Video Proof Provided
           </label>
-          <p className="text-xs italic text-cyan-400 mb-4 max-w-md mx-auto">
+          <p className="text-xs italic text-yellow-400 mb-4 max-w-md mx-auto">
             POV of track timing must be posted in the organization email in the
             respective section for approved status.
           </p>
 
           <button
             type="submit"
-            className="w-full bg-cyan-500 text-black py-2 rounded hover:bg-cyan-400"
+            className="w-full bg-yellow-500 text-black py-2 rounded hover:bg-yellow-400"
           >
             Submit
           </button>
@@ -241,15 +241,17 @@ export default function Leaderboard() {
       )}
 
       <div className="overflow-x-auto">
-        <table className="min-w-full border border-cyan-300 text-center shadow-xl">
-          <thead className="bg-cyan-900 text-white">
+        <table className="min-w-full border border-yellow-300 text-center shadow-xl">
+          <thead className="bg-yellow-900 text-white">
             <tr>
-              <th className="py-2 px-4 border-b border-cyan-300">Racer</th>
-              <th className="py-2 px-4 border-b border-cyan-300">Placement</th>
-              <th className="py-2 px-4 border-b border-cyan-300">Time</th>
-              <th className="py-2 px-4 border-b border-cyan-300">Track</th>
-              <th className="py-2 px-4 border-b border-cyan-300">Vehicle</th>
-              <th className="py-2 px-4 border-b border-cyan-300">Approval</th>
+              <th className="py-2 px-4 border-b border-yellow-300">Racer</th>
+              <th className="py-2 px-4 border-b border-yellow-300">
+                Placement
+              </th>
+              <th className="py-2 px-4 border-b border-yellow-300">Time</th>
+              <th className="py-2 px-4 border-b border-yellow-300">Track</th>
+              <th className="py-2 px-4 border-b border-yellow-300">Vehicle</th>
+              <th className="py-2 px-4 border-b border-yellow-300">Approval</th>
             </tr>
           </thead>
           <tbody>
@@ -258,24 +260,24 @@ export default function Leaderboard() {
               .map((entry) => (
                 <tr
                   key={entry._id}
-                  className="hover:bg-cyan-800 hover:text-black transition duration-200"
+                  className="hover:bg-yellow-800 hover:text-black transition duration-200"
                 >
-                  <td className="py-2 px-4 border-b border-cyan-300">
+                  <td className="py-2 px-4 border-b border-yellow-300">
                     {entry.racer}
                   </td>
-                  <td className="py-2 px-4 border-b border-cyan-300">
+                  <td className="py-2 px-4 border-b border-yellow-300">
                     {entry.placement}
                   </td>
-                  <td className="py-2 px-4 border-b border-cyan-300">
+                  <td className="py-2 px-4 border-b border-yellow-300">
                     {entry.time}
                   </td>
-                  <td className="py-2 px-4 border-b border-cyan-300">
+                  <td className="py-2 px-4 border-b border-yellow-300">
                     {entry.track}
                   </td>
-                  <td className="py-2 px-4 border-b border-cyan-300">
+                  <td className="py-2 px-4 border-b border-yellow-300">
                     {entry.vehicle}
                   </td>
-                  <td className="py-2 px-4 border-b border-cyan-300">
+                  <td className="py-2 px-4 border-b border-yellow-300">
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-semibold ${
                         entry.approved === "Approved"

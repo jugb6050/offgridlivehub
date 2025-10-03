@@ -47,11 +47,12 @@ export default function Home() {
         <h1
           className={`${orbitron.variable} text-3xl md:text-5xl lg:text-6xl font-bold tracking-widest animate-fadeInUp`}
         >
-          Saturday, July 5th | OFF GRID X EMPIRE Event
+          DMV Underground Off Grid Race Event | Event Start Time: October 24th,
+          2025 - Keep an eye out in RSX
         </h1>
         <Link
           href="/eventdetails"
-          className="mt-8 px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-xl shadow-lg transition transform hover:scale-105"
+          className="mt-8 px-6 py-3 bg-yellow-300 hover:bg-yellow-300 text-black font-bold rounded-xl shadow-lg transition transform hover:scale-105"
         >
           View Event Details
         </Link>
