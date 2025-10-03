@@ -59,7 +59,7 @@ const racers = [
   },
   {
     id: 9,
-    name: "Uncle Rickys",
+    name: "Uncle Ricky",
     rank: "Off Grid Unc - Relations",
     favoriteTrack: "Unkown",
     favoriteCar: "uknown",
