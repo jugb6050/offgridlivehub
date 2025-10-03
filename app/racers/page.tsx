@@ -41,7 +41,7 @@ const racers = [
     name: "Oscar Makinen",
     rank: "Sentinel - Low Command",
     favoriteTrack: "DMV",
-    favoriteCar: "Elegy RH8 Liberty Walk",
+    favoriteCar: "Coquette D10",
   },
   {
     id: 7,
