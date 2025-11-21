@@ -1,7 +1,10 @@
-"use client";
+"use client"; // optional if you do dynamic import, but safe to include
 
-import GtaMap from "../components/GtaMap"; // relative path
+import dynamic from "next/dynamic";
 
-export default function Home() {
+// Dynamically import the GtaMap component with SSR disabled
+const GtaMap = dynamic(() => import("../components/GtaMap"), { ssr: false });
+
+export default function MapPage() {
   return <GtaMap />;
 }
