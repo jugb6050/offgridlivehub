@@ -15,7 +15,7 @@ export default function RaceEventPage() {
       <h1
         className={`${orbitron.variable} text-center text-3xl sm:text-4xl md:text-5xl mb-8 text-yellow-200`}
       >
-        Off Grid DMV Race Event
+        Off Grid DMV Lap Time Qualifying Race Event
       </h1>
 
       <div className="w-full max-w-3xl mx-auto mb-10 rounded-xl border-4 border-yellow-200 overflow-hidden">
@@ -34,11 +34,12 @@ export default function RaceEventPage() {
         <h2
           className={`${orbitron.variable} text-2xl sm:text-3xl md:text-4xl text-white`}
         >
-          Event Start Time: October 24th, 2025 - Keep an eye out in RSX
+          Event Start Time: Dec 5th, 2025 - Keep an eye out in RSX - One Hour
+          After Tsunami
         </h2>
 
         <p className="pt-2 text-lg sm:text-xl md:text-2xl text-pink-400">
-          Underground DMV Race Event - Entry - 5k Per racer
+          Underground DMV Race Event - Entry - 2k Per racer
         </p>
       </div>
     </div>
