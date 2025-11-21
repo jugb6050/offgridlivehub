@@ -12,7 +12,8 @@ const tracks = [
   "OGT3",
 ];
 
-const approvalOptions = ["In Review", "Denied", "Approved"];
+const approvalOptions = ["In Review", "Denied", "Approved"] as const;
+type ApprovalStatus = (typeof approvalOptions)[number];
 
 type LapTimeRaw = {
   _id: string;
@@ -20,7 +21,7 @@ type LapTimeRaw = {
   time: string;
   track: string;
   vehicle: string;
-  approved: "In Review" | "Denied" | "Approved";
+  approved: ApprovalStatus;
 };
 
 type LapTimeParsed = LapTimeRaw & {
@@ -30,7 +31,7 @@ type LapTimeParsed = LapTimeRaw & {
 
 export default function Leaderboard() {
   const [lapTimes, setLapTimes] = useState<LapTimeParsed[]>([]);
-  const [selectedTrack, setSelectedTrack] = useState("All");
+  const [selectedTrack, setSelectedTrack] = useState<string | "All">("All");
   const [formOpen, setFormOpen] = useState(false);
   const [formData, setFormData] = useState({
     racer: "",
@@ -44,7 +45,7 @@ export default function Leaderboard() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editingData, setEditingData] = useState<Partial<LapTimeRaw>>({});
 
-  // Convert time string "M:SS:SSS" to milliseconds number
+  // Convert time string "M:SS:SSS" to milliseconds
   const timeStringToMs = (input: string): number => {
     const parts = input.split(":").map(Number);
     if (parts.length !== 3 || parts.some(isNaN)) return 0;
@@ -62,7 +63,7 @@ export default function Leaderboard() {
           placement: 0,
         }));
 
-        // Calculate placements per track
+        // Calculate placement per track
         const grouped: Record<string, LapTimeParsed[]> = {};
         withMs.forEach((entry) => {
           if (!grouped[entry.track]) grouped[entry.track] = [];
@@ -70,8 +71,10 @@ export default function Leaderboard() {
         });
 
         const allWithPlacements: LapTimeParsed[] = [];
-        for (const track in grouped) {
-          const sorted = grouped[track].sort((a, b) => a.timeInMs - b.timeInMs);
+        for (const trackName in grouped) {
+          const sorted = grouped[trackName].sort(
+            (a, b) => a.timeInMs - b.timeInMs
+          );
           sorted.forEach((entry, index) => {
             entry.placement = index + 1;
             allWithPlacements.push(entry);
@@ -90,12 +93,13 @@ export default function Leaderboard() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const payload = {
+    const payload: LapTimeRaw = {
       racer: formData.racer,
       time: formData.time,
       track: formData.track,
       vehicle: formData.vehicle,
       approved: formData.videoProof ? "In Review" : "Denied",
+      _id: "", // backend will assign
     };
 
     await fetch("/api/lap-times", {
@@ -340,12 +344,12 @@ export default function Leaderboard() {
                       <td className="py-2 px-4 border-b border-yellow-300">
                         <input
                           className="w-full bg-black text-yellow-300 border border-yellow-500 rounded p-1"
-                          value={editingData.racer}
+                          value={editingData.racer || ""}
                           onChange={(e) =>
-                            setEditingData({
-                              ...editingData,
+                            setEditingData((prev) => ({
+                              ...prev,
                               racer: e.target.value,
-                            })
+                            }))
                           }
                         />
                       </td>
@@ -355,24 +359,24 @@ export default function Leaderboard() {
                       <td className="py-2 px-4 border-b border-yellow-300">
                         <input
                           className="w-full bg-black text-yellow-300 border border-yellow-500 rounded p-1"
-                          value={editingData.time}
+                          value={editingData.time || ""}
                           onChange={(e) =>
-                            setEditingData({
-                              ...editingData,
+                            setEditingData((prev) => ({
+                              ...prev,
                               time: e.target.value,
-                            })
+                            }))
                           }
                         />
                       </td>
                       <td className="py-2 px-4 border-b border-yellow-300">
                         <select
                           className="w-full bg-black text-yellow-300 border border-yellow-500 rounded p-1"
-                          value={editingData.track}
+                          value={editingData.track || tracks[0]}
                           onChange={(e) =>
-                            setEditingData({
-                              ...editingData,
+                            setEditingData((prev) => ({
+                              ...prev,
                               track: e.target.value,
-                            })
+                            }))
                           }
                         >
                           {tracks.map((track) => (
@@ -385,24 +389,24 @@ export default function Leaderboard() {
                       <td className="py-2 px-4 border-b border-yellow-300">
                         <input
                           className="w-full bg-black text-yellow-300 border border-yellow-500 rounded p-1"
-                          value={editingData.vehicle}
+                          value={editingData.vehicle || ""}
                           onChange={(e) =>
-                            setEditingData({
-                              ...editingData,
+                            setEditingData((prev) => ({
+                              ...prev,
                               vehicle: e.target.value,
-                            })
+                            }))
                           }
                         />
                       </td>
                       <td className="py-2 px-4 border-b border-yellow-300">
                         <select
                           className="w-full bg-black text-yellow-300 border border-yellow-500 rounded p-1"
-                          value={editingData.approved}
+                          value={editingData.approved || "In Review"}
                           onChange={(e) =>
-                            setEditingData({
-                              ...editingData,
-                              approved: e.target.value as any,
-                            })
+                            setEditingData((prev) => ({
+                              ...prev,
+                              approved: e.target.value as ApprovalStatus,
+                            }))
                           }
                         >
                           {approvalOptions.map((status) => (

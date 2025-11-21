@@ -56,12 +56,22 @@ export async function PATCH(req: Request) {
 
     const body = await req.json();
 
-    // Only allow updating valid fields
-    const allowedFields = ["racer", "track", "time", "vehicle", "approved"];
-    const updateData: any = {};
-    allowedFields.forEach(field => { if (field in body) updateData[field] = body[field]; });
+    type LapTimeUpdate = {
+      racer?: string;
+      track?: string;
+      time?: string;
+      vehicle?: string;
+      approved?: boolean;
+      timeInMs?: number;
+    };
 
-    // If time is updated, recalc timeInMs
+    const allowedFields = ["racer", "track", "time", "vehicle", "approved"];
+    const updateData: LapTimeUpdate = {};
+    allowedFields.forEach((field) => {
+      if (field in body) updateData[field as keyof LapTimeUpdate] = body[field];
+    });
+
+    // Recalculate timeInMs if time is updated
     if (updateData.time) {
       const [minutes, seconds, milliseconds] = updateData.time.split(":").map(Number);
       updateData.timeInMs = minutes * 60000 + seconds * 1000 + milliseconds;
@@ -80,6 +90,7 @@ export async function PATCH(req: Request) {
     await client.close();
   }
 }
+
 
 export async function DELETE(req: Request) {
   try {
