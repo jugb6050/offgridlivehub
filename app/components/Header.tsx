@@ -10,7 +10,7 @@ export default function Header() {
           href="/"
           className="text-white text-5xl md:text-6xl font-cyberpunk tracking-widest hover:text-white transition-all duration-300"
         >
-          OFF GRID x SMILERP
+          SMILERP x RAZED RACING
         </Link>
       </div>
 

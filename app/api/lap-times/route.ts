@@ -12,7 +12,7 @@ export async function GET() {
     const db = client.db(dbName);
     const collection = db.collection("offgridleaderboard");
 
-    // Fetch all entries
+    // Fetch all entriåes
     const lapTimes = await collection.find({}).toArray();
 
     return NextResponse.json(lapTimes);
