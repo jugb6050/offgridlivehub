@@ -47,8 +47,8 @@ export default function Home() {
         <h1
           className={`${orbitron.variable} text-3xl md:text-5xl lg:text-6xl font-bold tracking-widest animate-fadeInUp`}
         >
-          DMV Underground Off Grid Race Event | Event Start Time: October 24th,
-          2025 - Keep an eye out in RSX
+          DMV Underground Off Grid Lap Qualifying Event | Event Start Time: Dec
+          5th, 2025 - Keep an eye out in RSX - One hour after Tsunami - 6pm EST
         </h1>
         <Link
           href="/eventdetails"

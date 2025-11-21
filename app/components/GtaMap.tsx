@@ -77,6 +77,7 @@ export default function GtaMap() {
     return null;
   };
 
+  // Save new blip
   const saveBlip = async () => {
     if (!addingBlip) return;
     const payload = { ...newBlipData, coords: addingBlip };
@@ -101,8 +102,9 @@ export default function GtaMap() {
   };
 
   return (
-    <div className="relative w-full h-screen">
-      <div className="absolute top-4 left-4 z-50 flex gap-4">
+    <div className="relative w-full h-[calc(100vh-4rem)]">
+      {/* Admin Button */}
+      <div className="fixed top-4 left-4 z-50 flex gap-4">
         {!adminMode && (
           <button
             onClick={handleAdminLogin}
@@ -124,11 +126,12 @@ export default function GtaMap() {
         minZoom={-5}
         maxZoom={5}
         scrollWheelZoom
-        style={{ height: "100%", width: "100%" }}
+        className="absolute top-16 left-0 right-0 bottom-0"
         crs={L.CRS.Simple}
       >
         <MapClickHandler />
 
+        {/* Map Image */}
         <ImageOverlay
           url="/gta-map.png"
           bounds={[
@@ -137,7 +140,7 @@ export default function GtaMap() {
           ]}
         />
 
-        {/* Existing blips */}
+        {/* Existing Blips */}
         {blips.map((blip) => (
           <Marker
             key={blip._id}
@@ -205,33 +208,35 @@ export default function GtaMap() {
                       }
                       className="border p-1 rounded"
                     />
-                    <button
-                      onClick={async () => {
-                        const res = await fetch(
-                          `/api/blips?id=${editingBlipId}`,
-                          {
-                            method: "PATCH",
-                            headers: { "Content-Type": "application/json" },
-                            body: JSON.stringify(editingData),
+                    <div className="flex gap-2 mt-2">
+                      <button
+                        onClick={async () => {
+                          const res = await fetch(
+                            `/api/blips?id=${editingBlipId}`,
+                            {
+                              method: "PATCH",
+                              headers: { "Content-Type": "application/json" },
+                              body: JSON.stringify(editingData),
+                            }
+                          );
+                          if (res.ok) {
+                            fetchBlips();
+                            setEditingBlipId(null);
+                          } else {
+                            alert("Failed to update blip");
                           }
-                        );
-                        if (res.ok) {
-                          fetchBlips();
-                          setEditingBlipId(null);
-                        } else {
-                          alert("Failed to update blip");
-                        }
-                      }}
-                      className="bg-green-600 text-black font-bold rounded p-1 hover:bg-green-500"
-                    >
-                      Save
-                    </button>
-                    <button
-                      onClick={() => setEditingBlipId(null)}
-                      className="bg-gray-600 text-white p-1 rounded hover:bg-gray-500"
-                    >
-                      Cancel
-                    </button>
+                        }}
+                        className="bg-green-600 text-black font-bold rounded p-1 hover:bg-green-500"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => setEditingBlipId(null)}
+                        className="bg-gray-600 text-white p-1 rounded hover:bg-gray-500"
+                      >
+                        Cancel
+                      </button>
+                    </div>
                   </>
                 ) : (
                   <>
@@ -262,7 +267,9 @@ export default function GtaMap() {
                             if (!confirm("Delete this blip?")) return;
                             const res = await fetch(
                               `/api/blips?id=${blip._id}`,
-                              { method: "DELETE" }
+                              {
+                                method: "DELETE",
+                              }
                             );
                             if (res.ok) fetchBlips();
                           }}
@@ -279,7 +286,7 @@ export default function GtaMap() {
           </Marker>
         ))}
 
-        {/* Adding new blip form */}
+        {/* Adding New Blip */}
         {addingBlip && (
           <Marker
             position={[addingBlip.x, addingBlip.y]}

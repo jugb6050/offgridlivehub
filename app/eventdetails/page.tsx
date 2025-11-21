@@ -20,7 +20,7 @@ export default function RaceEventPage() {
 
       <div className="w-full max-w-3xl mx-auto mb-10 rounded-xl border-4 border-yellow-200 overflow-hidden">
         <Image
-          src="/dmvq.png"
+          src="/dmv.png"
           alt="Race Event Map"
           width={1920}
           height={1080}
