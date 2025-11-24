@@ -31,7 +31,6 @@ export default function RosterPage() {
   const [successMessage, setSuccessMessage] = useState("");
   const [adminMode, setAdminMode] = useState(false);
 
-  // New Racer state
   const [newRacer, setNewRacer] = useState<Racer>({
     name: "",
     rank: "",
@@ -40,10 +39,8 @@ export default function RosterPage() {
     raceTeam: "",
   });
 
-  // New Crew state
   const [newCrew, setNewCrew] = useState("");
 
-  // Editing state
   const [editingRacerId, setEditingRacerId] = useState<string | null>(null);
   const [editingData, setEditingData] = useState<Racer>({
     name: "",
@@ -53,7 +50,7 @@ export default function RosterPage() {
     raceTeam: "",
   });
 
-  // Fetch racers and crews on mount
+  // Fetch racers and crews
   useEffect(() => {
     async function fetchData() {
       const racersRes = await fetch("/api/racers");
@@ -100,6 +97,31 @@ export default function RosterPage() {
       setNewCrew("");
       setSuccessMessage(`Crew "${newCrew}" added!`);
       setTimeout(() => setSuccessMessage(""), 2500);
+    }
+  };
+
+  // Delete crew
+  const handleDeleteCrew = async (crewName: string) => {
+    if (
+      !confirm(
+        `Delete crew "${crewName}"? All racers in this crew will remain but lose their team assignment.`
+      )
+    )
+      return;
+
+    const res = await fetch(`/api/crews?name=${encodeURIComponent(crewName)}`, {
+      method: "DELETE",
+    });
+
+    if (res.ok) {
+      setCrews((prev) => prev.filter((c) => c !== crewName));
+      setRacers((prev) =>
+        prev.map((r) => (r.raceTeam === crewName ? { ...r, raceTeam: "" } : r))
+      );
+      setSuccessMessage(`Crew "${crewName}" deleted.`);
+      setTimeout(() => setSuccessMessage(""), 2500);
+    } else {
+      alert("Failed to delete crew");
     }
   };
 
@@ -159,7 +181,7 @@ export default function RosterPage() {
   };
 
   // Delete racer
-  const handleDelete = async (racerId: string) => {
+  const handleDeleteRacer = async (racerId: string) => {
     if (!confirm("Delete this racer?")) return;
     const res = await fetch(`/api/racers?id=${racerId}`, { method: "DELETE" });
     if (res.ok) {
@@ -179,7 +201,6 @@ export default function RosterPage() {
         Driver Roster
       </h1>
 
-      {/* ADMIN LOGIN BUTTON */}
       {!adminMode && (
         <button
           onClick={handleAdminLogin}
@@ -200,7 +221,7 @@ export default function RosterPage() {
         </div>
       )}
 
-      {/* ADD NEW CREW FORM */}
+      {/* ADD NEW CREW */}
       <form
         onSubmit={handleAddCrew}
         className="bg-gray-900 p-6 rounded-xl mb-6 max-w-xl"
@@ -223,7 +244,7 @@ export default function RosterPage() {
         </div>
       </form>
 
-      {/* ADD NEW RACER FORM */}
+      {/* ADD NEW RACER */}
       <form
         onSubmit={handleAddRacer}
         className="bg-gray-900 p-6 rounded-xl mb-12 max-w-xl"
@@ -297,9 +318,20 @@ export default function RosterPage() {
       ) : (
         groupedByTeam.map(({ team, members }) => (
           <div key={team} className="mb-16">
-            <h2 className="text-2xl font-bold text-yellow-500 mb-6">
-              {team} Crew
-            </h2>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-yellow-500">
+                {team} Crew
+              </h2>
+              {adminMode && (
+                <button
+                  onClick={() => handleDeleteCrew(team)}
+                  className="bg-red-600 text-white px-3 py-1 rounded"
+                >
+                  Delete Crew
+                </button>
+              )}
+            </div>
+
             {members.length === 0 ? (
               <p className="text-gray-400 mb-6">No racers in this crew yet.</p>
             ) : (
@@ -429,7 +461,9 @@ export default function RosterPage() {
                             Edit
                           </button>
                           <button
-                            onClick={() => racer._id && handleDelete(racer._id)}
+                            onClick={() =>
+                              racer._id && handleDeleteRacer(racer._id)
+                            }
                             className="bg-red-600 text-white px-2 py-1 rounded"
                           >
                             Delete

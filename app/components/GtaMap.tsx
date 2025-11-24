@@ -19,6 +19,8 @@ type Blip = {
   carClass: string;
   trackName?: string;
   coords: { x: number; y: number };
+  refuel?: "Yes" | "No";
+  color?: string;
 };
 
 export default function GtaMap() {
@@ -27,12 +29,16 @@ export default function GtaMap() {
   const [addingBlip, setAddingBlip] = useState<{ x: number; y: number } | null>(
     null
   );
+
+  // Default values: Green + No
   const [newBlipData, setNewBlipData] = useState({
     date: "",
     timeUTC: "",
     eventName: "",
     carClass: "",
     trackName: "",
+    refuel: "No",
+    color: "#00ff00", // DEFAULT GREEN
   });
 
   const [editingBlipId, setEditingBlipId] = useState<string | null>(null);
@@ -42,9 +48,11 @@ export default function GtaMap() {
     eventName: "",
     carClass: "",
     trackName: "",
+    refuel: "No",
+    color: "#00ff00",
   });
 
-  // Load blips from API
+  // Load blips
   const fetchBlips = async () => {
     const res = await fetch("/api/blips");
     const data = await res.json();
@@ -66,7 +74,7 @@ export default function GtaMap() {
     }
   };
 
-  // Click map to add blip (admin only)
+  // Click map to add blip
   const MapClickHandler = () => {
     useMapEvents({
       click(e) {
@@ -80,12 +88,14 @@ export default function GtaMap() {
   // Save new blip
   const saveBlip = async () => {
     if (!addingBlip) return;
+
     const payload = { ...newBlipData, coords: addingBlip };
     const res = await fetch("/api/blips", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
     });
+
     if (res.ok) {
       fetchBlips();
       setAddingBlip(null);
@@ -95,6 +105,8 @@ export default function GtaMap() {
         eventName: "",
         carClass: "",
         trackName: "",
+        refuel: "No",
+        color: "#00ff00",
       });
     } else {
       alert("Failed to save blip");
@@ -146,11 +158,15 @@ export default function GtaMap() {
             key={blip._id}
             position={[blip.coords.x, blip.coords.y]}
             icon={L.divIcon({
-              className: "bg-yellow-500 rounded-full w-4 h-4",
+              className: "",
+              html: `<div style="background:${
+                blip.color || "#00ff00"
+              }; width:12px; height:12px; border-radius:50%; border:2px solid black;"></div>`,
             })}
           >
             <Popup>
               <div className="flex flex-col gap-1 text-black">
+                {/* Editing Mode */}
                 {editingBlipId === blip._id ? (
                   <>
                     <input
@@ -161,6 +177,7 @@ export default function GtaMap() {
                       }
                       className="border p-1 rounded"
                     />
+
                     <input
                       type="time"
                       value={editingData.timeUTC}
@@ -172,6 +189,7 @@ export default function GtaMap() {
                       }
                       className="border p-1 rounded"
                     />
+
                     <input
                       type="text"
                       placeholder="Event Name"
@@ -184,6 +202,7 @@ export default function GtaMap() {
                       }
                       className="border p-1 rounded"
                     />
+
                     <input
                       type="text"
                       placeholder="Car Class"
@@ -196,6 +215,7 @@ export default function GtaMap() {
                       }
                       className="border p-1 rounded"
                     />
+
                     <input
                       type="text"
                       placeholder="Track Name"
@@ -208,6 +228,38 @@ export default function GtaMap() {
                       }
                       className="border p-1 rounded"
                     />
+
+                    {/* Refuel Dropdown */}
+                    <label className="text-sm font-semibold text-black">
+                      Refuel
+                      <select
+                        value={editingData.refuel}
+                        onChange={(e) =>
+                          setEditingData({
+                            ...editingData,
+                            refuel: e.target.value,
+                          })
+                        }
+                        className="border p-1 rounded w-full mt-1"
+                      >
+                        <option value="No">Refuel Not Required</option>
+                        <option value="Yes">Refuel Required</option>
+                      </select>
+                    </label>
+
+                    {/* Color Picker */}
+                    <input
+                      type="color"
+                      value={editingData.color}
+                      onChange={(e) =>
+                        setEditingData({
+                          ...editingData,
+                          color: e.target.value,
+                        })
+                      }
+                      className="border p-1 rounded w-12 h-8"
+                    />
+
                     <div className="flex gap-2 mt-2">
                       <button
                         onClick={async () => {
@@ -230,6 +282,7 @@ export default function GtaMap() {
                       >
                         Save
                       </button>
+
                       <button
                         onClick={() => setEditingBlipId(null)}
                         className="bg-gray-600 text-white p-1 rounded hover:bg-gray-500"
@@ -240,11 +293,14 @@ export default function GtaMap() {
                   </>
                 ) : (
                   <>
+                    {/* Display Mode */}
                     <b>{blip.eventName}</b>
                     <span>Date: {blip.date}</span>
                     <span>Time (UTC): {blip.timeUTC}</span>
                     <span>Car Class: {blip.carClass}</span>
                     {blip.trackName && <span>Track: {blip.trackName}</span>}
+                    <span>Refuel: {blip.refuel || "No"}</span>
+
                     {adminMode && (
                       <div className="flex gap-1 mt-1">
                         <button
@@ -256,20 +312,21 @@ export default function GtaMap() {
                               eventName: blip.eventName,
                               carClass: blip.carClass,
                               trackName: blip.trackName || "",
+                              refuel: blip.refuel || "No",
+                              color: blip.color || "#00ff00",
                             });
                           }}
                           className="bg-blue-600 text-white p-1 rounded hover:bg-blue-500"
                         >
                           Edit
                         </button>
+
                         <button
                           onClick={async () => {
                             if (!confirm("Delete this blip?")) return;
                             const res = await fetch(
                               `/api/blips?id=${blip._id}`,
-                              {
-                                method: "DELETE",
-                              }
+                              { method: "DELETE" }
                             );
                             if (res.ok) fetchBlips();
                           }}
@@ -290,7 +347,10 @@ export default function GtaMap() {
         {addingBlip && (
           <Marker
             position={[addingBlip.x, addingBlip.y]}
-            icon={L.divIcon({ className: "bg-green-600 rounded-full w-4 h-4" })}
+            icon={L.divIcon({
+              className: "",
+              html: `<div style="background:${newBlipData.color}; width:12px; height:12px; border-radius:50%; border:2px solid black;"></div>`,
+            })}
           >
             <Popup>
               <div className="flex flex-col gap-2 text-black">
@@ -302,6 +362,7 @@ export default function GtaMap() {
                   }
                   className="border p-1 rounded"
                 />
+
                 <input
                   type="time"
                   value={newBlipData.timeUTC}
@@ -310,6 +371,7 @@ export default function GtaMap() {
                   }
                   className="border p-1 rounded"
                 />
+
                 <input
                   type="text"
                   placeholder="Event Name"
@@ -322,15 +384,20 @@ export default function GtaMap() {
                   }
                   className="border p-1 rounded"
                 />
+
                 <input
                   type="text"
                   placeholder="Car Class"
                   value={newBlipData.carClass}
                   onChange={(e) =>
-                    setNewBlipData({ ...newBlipData, carClass: e.target.value })
+                    setNewBlipData({
+                      ...newBlipData,
+                      carClass: e.target.value,
+                    })
                   }
                   className="border p-1 rounded"
                 />
+
                 <input
                   type="text"
                   placeholder="Track Name (optional)"
@@ -343,6 +410,35 @@ export default function GtaMap() {
                   }
                   className="border p-1 rounded"
                 />
+
+                {/* Refuel Dropdown */}
+                <select
+                  value={newBlipData.refuel}
+                  onChange={(e) =>
+                    setNewBlipData({
+                      ...newBlipData,
+                      refuel: e.target.value,
+                    })
+                  }
+                  className="border p-1 rounded"
+                >
+                  <option value="No">Refuel Not Required</option>
+                  <option value="Yes">Refuel Required</option>
+                </select>
+
+                {/* Color Picker */}
+                <input
+                  type="color"
+                  value={newBlipData.color}
+                  onChange={(e) =>
+                    setNewBlipData({
+                      ...newBlipData,
+                      color: e.target.value,
+                    })
+                  }
+                  className="border p-1 rounded w-12 h-8"
+                />
+
                 <button
                   onClick={saveBlip}
                   className="bg-green-600 text-black font-bold rounded p-1 hover:bg-green-500"

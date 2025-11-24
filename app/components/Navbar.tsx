@@ -9,7 +9,7 @@ const navItems = [
   { name: "Time Attack Leaderboards", href: "/leaderboard" },
   { name: "Interactive Map", href: "/map" },
   { name: "Head 2 Head", href: "/head2head" },
-  { name: "Race Event Details", href: "/eventdetails" }, // 👈 Added this
+  { name: "Race Event Details", href: "/eventdetails" },
 ];
 
 export default function Navbar() {
@@ -17,7 +17,7 @@ export default function Navbar() {
 
   return (
     <div className="bg-black text-white px-6 py-4 flex justify-center border-b-2 border-white">
-      <ul className="flex space-x-8">
+      <ul className="flex space-x-8 items-center">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
 
@@ -36,6 +36,18 @@ export default function Navbar() {
             </li>
           );
         })}
+
+        {/* Razed Casino Button */}
+        <li>
+          <a
+            href="https://www.razed.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3 py-2 text-black font-semibold bg-white rounded border border-gray-300 hover:bg-blue-200 transition duration-300"
+          >
+            Razed Casino
+          </a>
+        </li>
       </ul>
     </div>
   );
